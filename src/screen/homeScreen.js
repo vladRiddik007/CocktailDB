@@ -8,7 +8,7 @@ import {styles} from '../components/styles';
 export const HomeScreen = ({route, navigation}) => {
   const [filters, setFilter] = useState([]);
   const [fullListDrinks, setFullListDrinks] = useState([]);
-  console.log('fullListDrinks: ', fullListDrinks);
+  const [renderFullListDrinks, setRenderFullListDrinks] = useState();
   const [isEnabled, setIsEnabled] = useState(null);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ export const HomeScreen = ({route, navigation}) => {
       );
       Promise.all(arrPromises).then((d) => {
         setFullListDrinks(d);
+        setRenderFullListDrinks(d);
       });
     } catch (e) {
       console.error('e: ', e);
@@ -54,7 +55,7 @@ export const HomeScreen = ({route, navigation}) => {
         );
         return (currentIten && currentIten.isEnabled) || false;
       });
-      setFullListDrinks(newFullListDrinks);
+      setRenderFullListDrinks(newFullListDrinks);
       console.log('newFullListDrinks: ', newFullListDrinks);
     }
   }, [route.params?.isEnabled]);
@@ -78,7 +79,7 @@ export const HomeScreen = ({route, navigation}) => {
 
   return (
     <FlatList
-      data={fullListDrinks}
+      data={renderFullListDrinks}
       renderItem={({item}) => (
         <>
           <Text style={styles.textDrink}>{item.filter}</Text>
